@@ -1,5 +1,5 @@
 package jpabook.yenyang.domain;
 
-public enum OrderState {
+public enum OrderStatus {
 	ORDER, CANCEL
 }

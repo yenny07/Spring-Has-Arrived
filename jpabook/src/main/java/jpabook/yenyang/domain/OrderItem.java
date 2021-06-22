@@ -11,11 +11,14 @@ import javax.persistence.ManyToOne;
 
 import org.omg.PortableInterceptor.ObjectReferenceFactory;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @Entity
 public class OrderItem {
 
@@ -34,4 +37,21 @@ public class OrderItem {
 
 	private int orderPrice;
 	private int count;
+
+	@Builder
+	public OrderItem(Item item, int orderPrice, int count) {
+		this.item = item;
+		this.orderPrice = orderPrice;
+		this.count = count;
+
+		item.removeStock(count);
+	}
+
+	public void cancel() {
+		getItem().addStock(count);
+	}
+
+	public int getTotalPrice() {
+		return getOrderPrice() * getCount();
+	}
 }

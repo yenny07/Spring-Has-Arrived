@@ -21,16 +21,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "ORDERS")
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ORDER_ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -48,7 +51,34 @@ public class Order extends BaseEntity{
 	private Date orderDate;
 
 	@Enumerated(EnumType.STRING)
-	private OrderState status;
+	private OrderStatus status;
+
+	@Builder
+	public Order(Member member, Delivery delivery, List<OrderItem> orderItems) {
+		this.setMember(member);
+		for (OrderItem item : orderItems) {
+			this.addOrderItem(item);
+		}
+		this.setDelivery(delivery);
+		this.orderDate = new Date();
+		this.status = OrderStatus.ORDER;
+	}
+
+	public void cancel() {
+		if (delivery.getStatus() == DeliveryStatus.COMP) {
+			throw new RuntimeException("이미 배송완료 된 상품은 주문 취소가 불가합니다.");
+		}
+		this.status = OrderStatus.CANCEL;
+		for (OrderItem item : orderItems) {
+			item.cancel();
+		}
+	}
+
+	public int getTotalPrice() {
+		return orderItems.stream()
+			.mapToInt(OrderItem::getTotalPrice)
+			.sum();
+	}
 
 	// Member <-> Order 양방향 연관 관계 메소드
 	public void setMember(Member member) {
