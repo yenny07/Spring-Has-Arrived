@@ -2,7 +2,7 @@ package sp5.chap02;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class Main {
+public class MainForChap02 {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationContext.class);
 
