@@ -2,7 +2,9 @@ package sp5.chap04.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component("infoPrinter")
 public class MemberInfoPrinter {
 
 	private MemberDao memDao;
