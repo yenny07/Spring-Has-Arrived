@@ -55,11 +55,13 @@ public class MemberDao {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 				PreparedStatement pstmt = connection.prepareStatement(
-					"insert into MEMBER(EMAIL, PASSWORD, NAME, REGDATE) values (?, ?, ?, ?)");
+					"update MEMBER set EMAIL=?, PASSWORD=?, NAME=?, REGDATE=? "
+						+ "where ID = ?");
 				pstmt.setString(1, member.getEmail());
 				pstmt.setString(2, member.getPassword());
 				pstmt.setString(3, member.getName());
 				pstmt.setTimestamp(4, Timestamp.valueOf(member.getRegisterDateTime()));
+				pstmt.setLong(5, member.getId());
 				return pstmt;
 			}
 		});

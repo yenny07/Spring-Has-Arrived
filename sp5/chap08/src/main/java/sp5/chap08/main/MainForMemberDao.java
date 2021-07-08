@@ -7,8 +7,11 @@ import java.util.List;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import sp5.chap08.config.AppContext;
+import sp5.chap08.spring.ChangePasswordService;
 import sp5.chap08.spring.Member;
 import sp5.chap08.spring.MemberDao;
+import sp5.chap08.spring.MemberNotFoundException;
+import sp5.chap08.spring.WrongIdPasswordException;
 
 public class MainForMemberDao {
 	private static MemberDao memberDao;
@@ -17,11 +20,21 @@ public class MainForMemberDao {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppContext.class);
 		memberDao = context.getBean(MemberDao.class);
 
+		// insertFirstMember();
+
 		selectAll();
 		updateMember();
 		insertMember();
 
 		context.close();
+	}
+
+	private static void insertFirstMember() {
+		System.out.println("----firstMember");
+
+		Member member = new Member("yenny07@naver.com", "1234", "yein", LocalDateTime.now());
+		memberDao.insert(member);
+		System.out.println(member.getId() + "의 아이디로 첫 멤버 추가");
 	}
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddHHmmss");
