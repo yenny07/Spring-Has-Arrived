@@ -41,8 +41,4 @@ public class AppContext {
 		return tm;
 	}
 
-	@Bean
-	public ChangePasswordService changePasswordService() {
-		return new ChangePasswordService();
-	}
 }

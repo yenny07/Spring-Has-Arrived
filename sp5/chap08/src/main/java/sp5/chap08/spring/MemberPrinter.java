@@ -3,7 +3,9 @@ package sp5.chap08.spring;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MemberPrinter {
 	private DateTimeFormatter dateTimeFormatter;
 	
