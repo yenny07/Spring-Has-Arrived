@@ -1,4 +1,4 @@
-package sp5.chap09.Controller;
+package sp5.chap09.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
