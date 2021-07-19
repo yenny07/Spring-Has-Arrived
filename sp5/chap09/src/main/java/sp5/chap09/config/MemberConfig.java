@@ -12,7 +12,6 @@ import sp5.chap09.domain.MemberDao;
 
 @Configuration
 @EnableTransactionManagement
-// @ComponentScan(basePackages = {"sp5.chap09.*"})
 public class MemberConfig {
 	@Bean(destroyMethod = "close")
 	public DataSource dataSource() {

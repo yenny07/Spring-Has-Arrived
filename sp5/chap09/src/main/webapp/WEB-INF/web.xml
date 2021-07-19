@@ -22,6 +22,7 @@
             <param-value>
                 config.MvcConfig
                 config.MemberConfig
+                config.ControllerConfig
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
