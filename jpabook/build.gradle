@@ -26,17 +26,26 @@ test {
 ext['hibernate.version'] = '5.2.11.Final'
 apply plugin: "io.spring.dependency-management"
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'junit:junit:4.12'
-    compileOnly 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation('org.springframework:spring-webmvc:5.0.6.RELEASE')
+    implementation('org.springframework:spring-orm:5.0.6.RELEASE')
+    implementation('org.hibernate:hibernate-entitymanager:5.3.10.Final')
     runtimeOnly 'com.h2database:h2'
+    implementation('org.apache.tomcat:tomcat-jdbc:9.0.46')
+
+    runtimeOnly('javax.servlet:jstl:1.2')
+    providedCompile('javax.servlet:javax.servlet-api:3.1.0')
+    providedCompile('javax.servlet.jsp:javax.servlet.jsp-api:2.3.1')
+
+    implementation('org.slf4j:slf4j-api:1.7.6')
+    runtimeOnly('ch.qos.logback:logback-classic:1.2.4')
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation ('junit:junit:4.12')
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation('com.querydsl:querydsl-core')
     implementation('com.querydsl:querydsl-jpa')
