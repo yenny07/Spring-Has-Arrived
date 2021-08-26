@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import survey.Answer;
 import survey.Question;
@@ -18,10 +19,12 @@ import survey.Question;
 public class SurveyController {
 
 	@GetMapping
-	public String form(Model model) {
+	public ModelAndView form() {
 		List<Question> questions = createQuestions();
-		model.addAttribute("questions", questions);
-		return "survey/surveyForm";
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("questions", questions); // Model
+		modelAndView.setViewName("survey/surveyForm"); // View
+		return modelAndView;
 	}
 
 	// 이걸 직접 쓰네.....
