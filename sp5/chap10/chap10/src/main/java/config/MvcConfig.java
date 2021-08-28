@@ -1,33 +1,20 @@
 package config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
-import org.springframework.web.HttpRequestHandler;
-import org.springframework.web.servlet.HandlerAdapter;
-import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import controller.RegisterRequestValidator;
 
 @Configuration
-@EnableWebMvc
+@EnableWebMvc // OptionalValidatorFactoryBean을 global scope Validator로 등록
 public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
@@ -54,8 +41,9 @@ public class MvcConfig implements WebMvcConfigurer {
 		return messageSource;
 	}
 
-	@Override
-	public Validator getValidator() {
-		return new RegisterRequestValidator();
-	}
+	// global scope Validator를 여기서 설정해두면 OptionalValidatorFactoryBean을 global scope validator로 쓰지 않으니 주석 처리.
+	// @Override
+	// public Validator getValidator() {
+	// 	return new RegisterRequestValidator();
+	// }
 }

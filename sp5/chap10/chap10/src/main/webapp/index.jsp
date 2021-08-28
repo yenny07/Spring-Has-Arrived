@@ -11,6 +11,6 @@
     <title>INDEX</title>
 </head>
 <body>
-9장, 10장, 11장 : 기본 경로 / 에 대해 서블릿이 index.jsp를 보여주는 중
+9장, 10장, 11장, 12장 : 기본 경로 / 에 대해 서블릿이 index.jsp를 보여주는 중
 </body>
 </html>

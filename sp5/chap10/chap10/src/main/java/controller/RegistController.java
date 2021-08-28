@@ -3,6 +3,7 @@ package controller;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +35,11 @@ public class RegistController {
 	@PostMapping("/step2")
 	public String handleStep2(
 		@RequestParam(value = "agree", defaultValue = "false") Boolean agree,
-		RegisterRequest request) {
+		Model model) {
 		if (!agree) {
 			return "register/step1";
 		}
+		model.addAttribute("registerRequest", new RegisterRequest());
 		return "register/step2";
 	}
 
@@ -48,6 +50,7 @@ public class RegistController {
 
 	@PostMapping("/step3")
 	public String handleStep3(@ModelAttribute("registerRequest") @Valid RegisterRequest regReq, Errors errors) {
+		new RegisterRequestValidator().validate(regReq, errors);
 		if (errors.hasErrors()) { // validate()에서 나온 에러가 있다면~ 돌아가라~
 			return "register/step2";
 		}
@@ -62,8 +65,8 @@ public class RegistController {
 
 	// 어떤 Validator가 커맨드 객체를 검증할지 여기서 결정함.
 	// Config.getValidator로 넣은 global scope Validator를 목록에서 삭제 -> 파라미터로 set한 controller scope Validator를 추가
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.setValidator(new RegisterRequestValidator());
-	}
+	// @InitBinder
+	// protected void initBinder(WebDataBinder binder) {
+	// 	binder.setValidator(new RegisterRequestValidator());
+	// }
 }
