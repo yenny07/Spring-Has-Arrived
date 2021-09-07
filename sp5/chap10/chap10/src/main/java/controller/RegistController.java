@@ -49,7 +49,10 @@ public class RegistController {
 	}
 
 	@PostMapping("/step3")
-	public String handleStep3(@ModelAttribute("registerRequest") @Valid RegisterRequest regReq, Errors errors) {
+	public String handleStep3(
+		@ModelAttribute("registerRequest") @Valid RegisterRequest regReq,
+		Errors errors) {
+
 		new RegisterRequestValidator().validate(regReq, errors);
 		if (errors.hasErrors()) { // validate()에서 나온 에러가 있다면~ 돌아가라~
 			return "register/step2";
