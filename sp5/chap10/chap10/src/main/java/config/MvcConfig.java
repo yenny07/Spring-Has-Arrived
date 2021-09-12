@@ -7,11 +7,13 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import controller.RegisterRequestValidator;
+import interceptor.AuthCheckInterceptor;
 
 @Configuration
 @EnableWebMvc // OptionalValidatorFactoryBean을 global scope Validator로 등록
@@ -33,6 +35,16 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/main").setViewName("main"); // /main 요청경로에 대해 뷰 이름으로 main(.jsp)를 사용한다
 	}
 
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authCheckInterceptor()) // AuthCheckInterceptor 객체를 인터셉터로 설정
+			.addPathPatterns("/edit/**");	// 이 인터셉터를 적용할 경로 패턴 지정
+	}
+
+	@Bean
+	public AuthCheckInterceptor authCheckInterceptor() {
+		return new AuthCheckInterceptor();
+	}
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();

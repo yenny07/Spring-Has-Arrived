@@ -23,7 +23,13 @@ public class ChangePwdController {
 	}
 
 	@GetMapping
-	public String form(@ModelAttribute("command") ChangePwdCommand pwdCommand) {
+	public String form(
+		@ModelAttribute("command") ChangePwdCommand pwdCommand,
+		HttpSession httpSession) {
+		AuthInfo authInfo = (AuthInfo)httpSession.getAttribute("authInfo");
+		if (authInfo == null) { // 로그인 없이 비밀번호를 변경하려는 경우, 로그인 화면으로 리다이렉트
+			return "redirect:/login";
+		}
 		return "edit/changePwdForm";
 	}
 
@@ -38,7 +44,7 @@ public class ChangePwdController {
 		if (errors.hasErrors()) {
 			return "edit/changePwdForm";
 		}
-
+		// 서버 재시작 시 httpSession은 만료 -> null을 리턴
 		AuthInfo authInfo = (AuthInfo)httpSession.getAttribute("authInfo");
 
 		try {
