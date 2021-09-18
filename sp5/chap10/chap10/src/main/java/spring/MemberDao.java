@@ -2,13 +2,17 @@ package spring;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
@@ -78,5 +82,17 @@ public class MemberDao {
 		Integer count = jdbcTemplate.queryForObject( // 결과가 1행인 경우 사용
 			"select count(*) from MEMBER", Integer.class);
 		return count;
+	}
+
+	public List<Member> selectByRegdate(
+		LocalDateTime from,
+		LocalDateTime to
+	) {
+		List<Member> result = jdbcTemplate.query(
+			"select * from MEMBER where REGDATE between ? and ?"
+				+ "order by REGDATE desc",
+			new MemberRowMapper(),
+			from, to);
+		return result;
 	}
 }
